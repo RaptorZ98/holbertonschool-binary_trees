@@ -8,7 +8,7 @@
 int binary_tree_is_perfect(const binary_tree_t *tree)
 {
 	if (binary_tree_is_full(tree) == 1
-	&& (binary_tree_height(tree->left) == binary_tree_height(tree->right)))
+	&& (binary_tree_leaves(tree->left) == binary_tree_leaves(tree->right)))
 		return (1);
 	return (0);
 }
@@ -28,26 +28,15 @@ int binary_tree_is_full(const binary_tree_t *tree)
 }
 
 /**
- * binary_tree_height - measures the height of a binary tree
- * @tree: the tree to measure
- * Return: the height
+ * binary_tree_leaves - counts the leaves in a binary tree
+ * @tree: the tree to count the leaves from
+ * Return: the number of leafs in the tree
 */
-size_t binary_tree_height(const binary_tree_t *tree)
+size_t binary_tree_leaves(const binary_tree_t *tree)
 {
-	size_t left, right;
-
-	if (tree == NULL)
+	if (!tree)
 		return (0);
-	left = binary_tree_height(tree->left);
-	right = binary_tree_height(tree->right);
-
-	if (!tree->parent)
-	{
-		if (left >= right)
-			return (left);
-		return (right);
-	}
-	if (left >= right)
-		return (left + 1);
-	return (right + 1);
+	if (tree->left == NULL && tree->right == NULL)
+		return (1);
+	return (binary_tree_leaves(tree->left) + binary_tree_leaves(tree->right));
 }
